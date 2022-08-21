@@ -1,0 +1,282 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled0.ipynb",
+      "provenance": [],
+      "authorship_tag": "ABX9TyNZYtgjHQugE/AqcGwP0fBE",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Junseokee/Study-Python/blob/main/20220821%ED%81%AC%EB%A1%A4%EB%A7%81%EC%97%B0%EC%8A%B5\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "WQINZbzaFN84"
+      },
+      "outputs": [],
+      "source": [
+        "import selenium\n",
+        "from selenium import webdriver\n",
+        "from selenium.webdriver.common.keys import Keys\n",
+        "from selenium.webdriver.common.by import By\n",
+        "import time\n",
+        "from openpyxl import Workbook"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install selenium"
+      ],
+      "metadata": {
+        "id": "KIxLv6GyFb7B"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!apt-get update\n",
+        "!apt install chromium-chromedriver"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "WMJgFD4rF1nR",
+        "outputId": "f2764e1a-a8b5-418d-f04b-f5e181f82f51"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\r0% [Working]\r            \rGet:1 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]\n",
+            "\r0% [Connecting to archive.ubuntu.com] [1 InRelease 14.2 kB/88.7 kB 16%] [Connec\r0% [Connecting to archive.ubuntu.com] [Connected to cloud.r-project.org (18.67.\r                                                                               \rGet:2 https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/ InRelease [3,626 B]\n",
+            "\r0% [Connecting to archive.ubuntu.com (91.189.91.39)] [Connected to developer.do\r0% [1 InRelease gpgv 88.7 kB] [Connecting to archive.ubuntu.com (91.189.91.39)]\r                                                                               \rHit:3 http://archive.ubuntu.com/ubuntu bionic InRelease\n",
+            "\r0% [1 InRelease gpgv 88.7 kB] [Waiting for headers] [Connected to developer.dow\r                                                                               \rGet:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]\n",
+            "\r0% [1 InRelease gpgv 88.7 kB] [4 InRelease 14.2 kB/88.7 kB 16%] [Connected to d\r0% [1 InRelease gpgv 88.7 kB] [Waiting for headers] [Connected to developer.dow\r                                                                               \rGet:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]\n",
+            "Get:6 http://ppa.launchpad.net/c2d4u.team/c2d4u4.0+/ubuntu bionic InRelease [15.9 kB]\n",
+            "Hit:7 http://ppa.launchpad.net/cran/libgit2/ubuntu bionic InRelease\n",
+            "Get:8 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [1,533 kB]\n",
+            "Hit:9 http://ppa.launchpad.net/deadsnakes/ppa/ubuntu bionic InRelease\n",
+            "Get:10 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [2,937 kB]\n",
+            "Ign:11 https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64  InRelease\n",
+            "Get:12 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  InRelease [1,581 B]\n",
+            "Hit:13 http://ppa.launchpad.net/graphics-drivers/ppa/ubuntu bionic InRelease\n",
+            "Hit:14 https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64  Release\n",
+            "Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [2,311 kB]\n",
+            "Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [3,369 kB]\n",
+            "Get:17 http://ppa.launchpad.net/c2d4u.team/c2d4u4.0+/ubuntu bionic/main Sources [2,095 kB]\n",
+            "Get:18 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  Packages [910 kB]\n",
+            "Get:19 http://ppa.launchpad.net/c2d4u.team/c2d4u4.0+/ubuntu bionic/main amd64 Packages [1,073 kB]\n",
+            "Fetched 14.5 MB in 3s (4,220 kB/s)\n",
+            "Reading package lists... Done\n",
+            "Reading package lists... Done\n",
+            "Building dependency tree       \n",
+            "Reading state information... Done\n",
+            "The following package was automatically installed and is no longer required:\n",
+            "  libnvidia-common-460\n",
+            "Use 'apt autoremove' to remove it.\n",
+            "The following additional packages will be installed:\n",
+            "  chromium-browser chromium-browser-l10n chromium-codecs-ffmpeg-extra\n",
+            "Suggested packages:\n",
+            "  webaccounts-chromium-extension unity-chromium-extension\n",
+            "The following NEW packages will be installed:\n",
+            "  chromium-browser chromium-browser-l10n chromium-chromedriver\n",
+            "  chromium-codecs-ffmpeg-extra\n",
+            "0 upgraded, 4 newly installed, 0 to remove and 25 not upgraded.\n",
+            "Need to get 90.4 MB of archives.\n",
+            "After this operation, 306 MB of additional disk space will be used.\n",
+            "Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 chromium-codecs-ffmpeg-extra amd64 103.0.5060.134-0ubuntu0.18.04.1 [1,160 kB]\n",
+            "Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 chromium-browser amd64 103.0.5060.134-0ubuntu0.18.04.1 [79.0 MB]\n",
+            "Get:3 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 chromium-browser-l10n all 103.0.5060.134-0ubuntu0.18.04.1 [5,043 kB]\n",
+            "Get:4 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 chromium-chromedriver amd64 103.0.5060.134-0ubuntu0.18.04.1 [5,202 kB]\n",
+            "Fetched 90.4 MB in 2s (51.1 MB/s)\n",
+            "Selecting previously unselected package chromium-codecs-ffmpeg-extra.\n",
+            "(Reading database ... 155676 files and directories currently installed.)\n",
+            "Preparing to unpack .../chromium-codecs-ffmpeg-extra_103.0.5060.134-0ubuntu0.18.04.1_amd64.deb ...\n",
+            "Unpacking chromium-codecs-ffmpeg-extra (103.0.5060.134-0ubuntu0.18.04.1) ...\n",
+            "Selecting previously unselected package chromium-browser.\n",
+            "Preparing to unpack .../chromium-browser_103.0.5060.134-0ubuntu0.18.04.1_amd64.deb ...\n",
+            "Unpacking chromium-browser (103.0.5060.134-0ubuntu0.18.04.1) ...\n",
+            "Selecting previously unselected package chromium-browser-l10n.\n",
+            "Preparing to unpack .../chromium-browser-l10n_103.0.5060.134-0ubuntu0.18.04.1_all.deb ...\n",
+            "Unpacking chromium-browser-l10n (103.0.5060.134-0ubuntu0.18.04.1) ...\n",
+            "Selecting previously unselected package chromium-chromedriver.\n",
+            "Preparing to unpack .../chromium-chromedriver_103.0.5060.134-0ubuntu0.18.04.1_amd64.deb ...\n",
+            "Unpacking chromium-chromedriver (103.0.5060.134-0ubuntu0.18.04.1) ...\n",
+            "Setting up chromium-codecs-ffmpeg-extra (103.0.5060.134-0ubuntu0.18.04.1) ...\n",
+            "Setting up chromium-browser (103.0.5060.134-0ubuntu0.18.04.1) ...\n",
+            "update-alternatives: using /usr/bin/chromium-browser to provide /usr/bin/x-www-browser (x-www-browser) in auto mode\n",
+            "update-alternatives: using /usr/bin/chromium-browser to provide /usr/bin/gnome-www-browser (gnome-www-browser) in auto mode\n",
+            "Setting up chromium-chromedriver (103.0.5060.134-0ubuntu0.18.04.1) ...\n",
+            "Setting up chromium-browser-l10n (103.0.5060.134-0ubuntu0.18.04.1) ...\n",
+            "Processing triggers for man-db (2.8.3-2ubuntu0.1) ...\n",
+            "Processing triggers for hicolor-icon-theme (0.17-2) ...\n",
+            "Processing triggers for mime-support (3.60ubuntu1) ...\n",
+            "Processing triggers for libc-bin (2.27-3ubuntu1.5) ...\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 검색할 키워드 입력\n",
+        "query = input('검색 키워드 입력')\n",
+        "time.sleep(5)\n",
+        "# 크롬 드라이버로 URL 접속\n",
+        "url = 'https://search.naver.com/search.naver?where=news&sm=tab_jum&query=' +query\n",
+        "driver = webdriver.Chrome('.\\chromedriver.exe')\n",
+        "driver.get(url)\n",
+        "time.sleep(5)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ulj8VHeOFPSD",
+        "outputId": "224fb993-468c-4510-df7e-a09e2f6430f4"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "검색 키워드 입력코스닥\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 통합문서 열기\n",
+        "xlsx = Workbook()\n",
+        "# 시트만들기\n",
+        "xlsx.create_sheet(query)\n",
+        "sheet = xlsx[query]\n",
+        "sheet.append(['Title', 'URL','Time'])"
+      ],
+      "metadata": {
+        "id": "25bO3S8FFPVD"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 네이버 검색창에 키워드 입력 후 Enter\n",
+        "search = driver.find_element(By.ID, 'query')\n",
+        "search.send_keys(query)\n",
+        "search.send_keys(Keys.RETURN)"
+      ],
+      "metadata": {
+        "id": "z1-uhvikFPdn"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "driver.find_element_by_xpath('//*[@id=\"snb\"]/div[1]/div/div[2]/a').click()\n",
+        "time.sleep(5)"
+      ],
+      "metadata": {
+        "id": "YazVdVUcFPgW"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "vcVYl3ZjFPjH"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "_r9F-5U8FPmJ"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "TCHCArK4FPo0"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "39XsloX_FPvL"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "4gFXszzBFPyJ"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "UxwwFoVnFP1b"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}

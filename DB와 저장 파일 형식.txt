@@ -1,0 +1,93 @@
+DB 종류
+
+1. Key-value 키랑 밸류로만 저장
+
+특징
+주로 서브용 DB로 사용
+자주쓰는 데이터 캐싱
+채팅을 위한 pub/sub
+영상 스트리밍
+로그 저장
+
+프로그램
+redis -> 데이터를 ram에다 저장이라 빠름
+
+2. Relational DB 관계형 데이터베이스
+
+특징
+테이블 형태로 저장
+SQL 문법 사용
+정규화가 중요함
+ACID Transaction 기능으로 안전, 정확
+정확도가 중요한 서비스에서 사용
+
+프로그램
+ORACLE, MySQL, PostgreSQL, SQLite, MariaDB 등 대부분 DB
+
+3. Graph DB 노드와 노드끼리의 관계 설정
+Graph Query Language 사용
+ex) 비행기 노선 SNS 친구관계, 코로나전염뱁
+프로그램 neo4j 등
+
+4. Document DB
+
+특징
+json 파일로 저장
+정규화 x
+분산처리 잘해줌
+
+프로그램
+mongoDB, couchDB 등
+
+5. column-family DB
+
+특징
+테이블과 로우를 만들고 컬럼을 만든다
+각자 프로그램마다 언어가 다름
+정규화 없고 복제 분산 잘함 -> 일관성 부족
+
+프로그램
+cassandra, Google Cloud Bigtable 등
+
+6. Search engin
+
+특징
+인덱스 보관에 특화
+빠른 검색에 도움
+인덱스를 이용해 자료 검색
+실시간 검색어, 추천검색어, 오타 교정 등
+
+프로그램
+elastic, Amazon CloudSearch, Google cloud Search
+
+
+일반적으로 Relational DB or Document DB 사용
+
+입출력이 많으면
+Document DB가 일반적
+
+정확도와 일관성이 중요하면
+Relational DB가 일반적
+
+----------------------------------
+XML 
+<데이터이름>값</데이터이름>
+html과 유사
+단점 용량크고 가시성 어려움
+
+CSV
+year, brand. model
+1997, hi, aww
+단점 고차원 데이터를 구현 불가
+
+JSON 파일
+{'name' : 'kim', 'age' : 20}
+대괄호나 중괄호 안에 데이터 저장
+array or object라고 부름
+DB형태로 저장도 가능
+
+YAML
+데이터 저장 형식 json과 유사
+
+
+
